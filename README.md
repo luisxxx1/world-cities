@@ -1,59 +1,182 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Ciudades del mundo
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Prueba técnica para el cargo de Analista de Soporte Nivel 1 en Infodec.
 
-## About Laravel
+Hice una página web con Laravel y PHP para que Sofía pueda escoger un país y ver qué ciudades tiene y cuánta gente vive en cada una. La información sale de la base de datos World, que trabajé en MariaDB (la que viene con XAMPP).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Todo pasa en una sola pantalla: escoges el país y te aparecen las 10 ciudades con más gente, las 10 con menos gente y la lista completa. Como a Sofía también le interesan los idiomas, le agregué los idiomas que se hablan en cada país y qué tanto se hablan.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Se ve bien en computador, tablet y celular.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Con qué la hice
 
-## Learning Laravel
+- **PHP 8.2:** el lenguaje de programación
+- **Laravel 12:** la herramienta con la que armé el proyecto, ordenado por partes
+- **MariaDB (XAMPP):** donde está guardada la información de países y ciudades
+- **Tailwind CSS:** para darle estilo a la página y que se adapte al celular
+- **JavaScript:** para que las ciudades aparezcan sin tener que recargar la página
+- **DbVisualizer:** para cargar y revisar la base de datos
+- **Git y GitHub:** para guardar cada avance del proyecto
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Qué necesitas para usarla
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2 o más reciente, con la extensión `intl` activada
+- Composer
+- MySQL 8 o MariaDB 10.4 en adelante
+- El archivo `world.sql`. Si no lo tienes, lo encuentras en la página oficial de MySQL: https://dev.mysql.com/doc/index-other.html (busca "world database")
 
-## Laravel Sponsors
+## Cómo ponerla a funcionar
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Descarga el proyecto y entra a la carpeta:
 
-### Premium Partners
+```bash
+   git clone https://github.com/TU-USUARIO/world-cities.git
+   cd world-cities
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. Instala lo que el proyecto necesita para funcionar:
 
-## Contributing
+```bash
+   composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Carga la base de datos. Es importante dejar el `--default-character-set=utf8mb4`, porque sin eso las palabras con tilde se ven mal (más abajo cuento cómo me pasó):
 
-## Code of Conduct
+```bash
+   mysql -u root -p --default-character-set=utf8mb4 < world.sql
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Crea el archivo de configuración y la llave de la página:
 
-## Security Vulnerabilities
+```bash
+   cp .env.example .env
+   php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Revisa en el archivo `.env` los datos para conectarse a la base. Yo usé MariaDB en el puerto 3307. Si tienes MySQL 8 normal, cambia estas dos líneas:
 
-## License
+```env
+   DB_CONNECTION=mysql
+   DB_PORT=3306
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. Enciende la página y ábrela en http://127.0.0.1:8000
+
+```bash
+   php artisan serve
+```
+
+La página solo lee la información de World y no crea nada nuevo en la base, así que no hay que hacer ningún paso adicional.
+
+## Cómo funciona
+
+Cuando escoges un país, la página le pide al servidor las ciudades de ese país. El servidor las busca en la base de datos y se las devuelve, y con eso se llenan las tablas en la pantalla sin recargar la página.
+
+### Dónde está cada cosa
+
+- `routes/web.php`: las direcciones de la página
+- `app/Http/Controllers/CountryController.php`: recibe la petición, busca la información y la devuelve
+- `app/Models/Country.php`: conecta con la tabla de países
+- `app/Models/City.php`: conecta con la tabla de ciudades
+- `app/Models/CountryLanguage.php`: conecta con la tabla de idiomas
+- `resources/views/countries/index.blade.php`: la pantalla que ve Sofía
+
+### Direcciones de la página
+
+- `/`: la pantalla principal
+- `/countries/{code}/cities`: devuelve la información de un país con sus ciudades e idiomas. Si el país no existe, responde que no lo encontró (error 404)
+
+Por ejemplo, para Colombia: http://127.0.0.1:8000/countries/COL/cities
+
+Algo que tuve que ajustar: la base World no está organizada como Laravel espera. Los nombres de las tablas están en singular, los países se identifican con un código de letras (`COL`, `ESP`) y no con un número, y las tablas no guardan fechas de creación. Por eso en cada modelo dejé indicado cómo es realmente cada tabla.
+
+## Diagrama de la base de datos
+
+![Diagrama de la base de datos World](<docs/evidencias/diagrama de bd.png>)
+
+Lo hice en draw.io.
+
+- Un país tiene muchas ciudades, y cada ciudad pertenece a un solo país.
+- Un país también puede tener varios idiomas.
+- Cada idioma se identifica por el país y el nombre del idioma juntos.
+- La columna `Capital` del país guarda el número de la ciudad capital.
+
+## Problemas que me encontré y cómo los resolví
+
+**1. El puerto 3306 estaba ocupado.**
+Al prender MySQL en XAMPP me salió que otro programa ya estaba usando el puerto 3306, porque tenía otro MySQL instalado. Como XAMPP ya estaba en el 3307, dejé todo conectado a ese puerto.
+
+**2. Las tildes se veían mal.**
+Al cargar `world.sql` con DbVisualizer, los nombres salían como "AsunciÃ³n" o "Ciudad de PanamÃ¡". El programa leyó el archivo con un formato distinto al que tenía. Lo volví a cargar desde la consola con `--default-character-set=utf8mb4` y revisé que ya salieran bien.
+
+**3. Un comando de revisión fallaba.**
+Al correr `php artisan db:show` salía el error `Table 'performance_schema.session_status' doesn't exist`. La conexión sí funcionaba; el problema era que Laravel estaba configurado para MySQL y XAMPP trae MariaDB. Lo cambié a `DB_CONNECTION=mariadb`.
+
+**4. Faltaba activar algo en PHP.**
+Laravel necesita la extensión `intl` para mostrar bien los números, y en XAMPP viene apagada. La activé en el archivo `php.ini` quitándole el punto y coma a `extension=intl`.
+
+**5. Archivos con el nombre en minúscula.**
+Algunos archivos me quedaron como `city.php` en vez de `City.php`. En Windows da igual, pero en otros sistemas la página no los encontraría. Los renombré para que quedaran bien.
+
+## Pruebas que hice
+
+- **Cargar la base:** salieron 239 países, 4079 ciudades y 984 idiomas
+- **Escoger Colombia:** 38 ciudades, Bogotá de primera y el español como idioma principal
+- **Escoger Antártida:** sale el mensaje de que no hay ciudades, sin errores
+- **No escoger ningún país:** sale el aviso de que hay que escoger uno
+- **Buscar un país que no existe:** responde que no lo encontró
+- **Verla en celular:** las tablas se acomodan una debajo de otra
+
+### Capturas
+
+- Versiones de PHP y Composer
+
+  ![](<docs/evidencias/VERSIONES DE HERRAMIENTAS.png>)
+
+- Conexión a la base de datos
+
+  ![](<docs/evidencias/CONFIGURACION DE BD.png>)
+
+- Configuración de la base World
+
+  ![](<docs/evidencias/Configuracion de la BD WORLD.png>)
+
+- Base cargada (239 / 4079 / 984)
+
+  ![](<docs/evidencias/IMPORTACION DE CONTEOS.png>)
+
+- Tildes dañadas
+
+  ![](<docs/evidencias/TILDES DAÑADAS.png>)
+
+- Tildes corregidas
+
+  ![](<docs/evidencias/ARREGLO DE TILDES.png>)
+
+- Pantalla inicial
+
+  ![](<docs/evidencias/VENTANA.png>)
+
+- Colombia en computador
+
+  ![](<docs/evidencias/COLOMBIA PC.png>)
+
+- Colombia en celular
+
+  ![](<docs/evidencias/COLOMBIA CELULAR.png>)
+
+- Revisión con F12
+
+  ![](<docs/evidencias/IMAGEN DE F12 O CODIGO.png>)
+
+- Antártida sin ciudades
+
+  ![](<docs/evidencias/ANTACTICA.png>)
+
+- Campo obligatorio
+
+  ![](<docs/evidencias/CAMPOOBLIGATORIO.png>)
+
+## Autor
+
+Luis Fernando Jiménez Quiñones
