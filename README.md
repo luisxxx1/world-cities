@@ -30,7 +30,7 @@ Se ve bien en computador, tablet y celular.
 1. Descarga el proyecto y entra a la carpeta:
 
 ```bash
-   git clone https://github.com/TU-USUARIO/world-cities.git
+   git clone https://github.com/luisxxx1/world-cities.git
    cd world-cities
 ```
 
