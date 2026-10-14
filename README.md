@@ -331,6 +331,82 @@ tiene espacios de más o ya fue borrada.
 
 ![](<docs/evidencias/P4errordeAPI401.png>)
 
+
+## Pregunta 5: transacción declinada
+
+El pago lo rechazó el banco.
+
+La tarjeta está bloqueada por la misma dueña,
+así que no fue un problema del sistema ni de la conexión.
+
+### Qué revisé
+
+Primero miré la petición y estaba bien armada.
+
+Era un pago de 52.349,98 pesos
+con una Visa terminada en 4499
+a una sola cuota.
+
+En la respuesta el motivo viene bastante claro:
+
+- status: DECLINED
+- reason: BLOCKED_BY_CARDHOLDER
+- message: Blocked by cardholder / contact cardholder
+- category: ISSUER_CANNOT_APPROVE_AT_THIS_TIME
+- responseCode: 9G
+
+Todo dice lo mismo.
+
+El que no aprobó fue el banco que emitió la tarjeta,
+porque la dueña la tiene bloqueada
+o tiene desactivadas las compras por internet.
+
+### Cosas que pueden confundir
+
+En el log sale "Htpp_Status": 201.
+
+Eso puede hacer pensar que todo salió bien,
+pero el 201 solo dice que la petición llegó y quedó registrada.
+
+Si el pago se aprobó o no lo dice el status,
+y ahí dice DECLINED.
+
+Además el campo está mal escrito,
+dice Htpp en vez de Http.
+
+El avs sale en "U" y la verificación de la tarjeta en "P".
+
+Eso quiere decir que no se pudo revisar
+la dirección ni el código de seguridad,
+pero no fue lo que causó el rechazo.
+
+También vi datos raros de la clienta:
+
+- el apellido repite el nombre completo
+- en la dirección solo dice "Bogota"
+- el código postal 760001 es de Cali y no de Bogotá
+
+No tienen que ver con el rechazo,
+pero sería bueno corregirlos.
+
+### Qué haría como soporte
+
+Le avisaría a la clienta que el banco rechazó el pago
+porque su tarjeta está bloqueada.
+
+Le pediría que llame a su banco
+para desbloquearla o activar las compras por internet.
+
+Si no puede, que intente con otra tarjeta
+u otro medio de pago.
+
+No reintentaría el cobro varias veces con la misma tarjeta,
+porque el banco lo puede ver como algo sospechoso.
+
+Tampoco lo pasaría a desarrollo,
+porque la integración funcionó bien
+y el rechazo vino del banco.
+
 ## Autor
 
 
