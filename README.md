@@ -269,6 +269,68 @@ Por ejemplo, China tiene 363 e India 341.
 ![](<docs/evidencias/p3relacion.png>)
 
 
+## Pregunta 4: consumo de API
+
+La colección de Postman está en la carpeta `postman/`.
+
+### Clima en Cali
+
+Para el clima usé Open-Meteo,
+que es gratis y no pide registrarse.
+
+Le pedí la temperatura, la humedad y el viento de Cali,
+y respondió sin problema con un 200 OK.
+
+![](<docs/evidencias/p4clima.png>)
+
+![](<docs/evidencias/p4climaapi.png>)
+
+### Cambio de moneda
+
+Primero probé con Frankfurter,
+pidiéndole cuánto vale el dólar en pesos y en euros.
+
+Respondió bien, con 200 OK,
+pero solo me trajo el euro. Los pesos no salieron por ningún lado.
+
+Revisando, vi que esa API toma los datos del Banco Central Europeo,
+y ellos no manejan el peso colombiano.
+
+Lo raro es que no sale ningún error,
+simplemente no lo trae. Si uno no revisa bien, ni se da cuenta.
+
+![](<docs/evidencias/p4monedasinpesocop.png>)
+
+Entonces cambié a ExchangeRate-API (open.er-api.com),
+y esa sí trae el peso colombiano.
+Ese día el dólar estaba en unos 3.185 pesos.
+
+![](<docs/evidencias/p4monedacambioacop.png>)
+
+### Error 401
+
+Para mostrar un error, llamé a OpenWeatherMap sin ponerle la clave.
+
+Me respondió 401 Unauthorized,
+con el mensaje `"Invalid API key"`.
+
+Ese error quiere decir que la API no sabe quién le está pidiendo los datos.
+OpenWeatherMap pide una clave en cada consulta y yo no la mandé.
+La dirección y los datos estaban bien; lo que faltaba era el permiso.
+
+Para arreglarlo:
+
+1. Crear una cuenta gratis en openweathermap.org.
+2. Copiar la clave que sale en "API keys".
+3. Agregarla a la consulta como `appid=TU_CLAVE`.
+4. Si sigue fallando, esperar un rato,
+   porque las claves nuevas a veces tardan en activarse.
+
+También puede salir este error si la clave quedó mal copiada,
+tiene espacios de más o ya fue borrada.
+
+![](<docs/evidencias/P4errordeAPI401.png>)
+
 ## Autor
 
 

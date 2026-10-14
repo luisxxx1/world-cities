@@ -1,0 +1,139 @@
+{
+  "info": {
+    "_postman_id": "119d8815-e11f-4851-b68f-9d806d9d3222",
+    "name": "Prueba Infodec  - APIS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58936455",
+    "_collection_link": "https://go.postman.co/collection/58936455-119d8815-e11f-4851-b68f-9d806d9d3222?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Clima cali",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.open-meteo.com/v1/forecast?latitude=3.45&longitude=-76.53&current=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=America/Bogota",
+          "protocol": "https",
+          "host": [
+            "api",
+            "open-meteo",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "forecast"
+          ],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "3.45"
+            },
+            {
+              "key": "longitude",
+              "value": "-76.53"
+            },
+            {
+              "key": "current",
+              "value": "temperature_2m,relative_humidity_2m,wind_speed_10m"
+            },
+            {
+              "key": "timezone",
+              "value": "America/Bogota"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cambio de moneda",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.frankfurter.dev/v1/latest?base=USD&symbols=COP,EUR",
+          "protocol": "https",
+          "host": [
+            "api",
+            "frankfurter",
+            "dev"
+          ],
+          "path": [
+            "v1",
+            "latest"
+          ],
+          "query": [
+            {
+              "key": "base",
+              "value": "USD"
+            },
+            {
+              "key": "symbols",
+              "value": "COP,EUR"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cambio de moneda a COP",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://open.er-api.com/v6/latest/USD",
+          "protocol": "https",
+          "host": [
+            "open",
+            "er-api",
+            "com"
+          ],
+          "path": [
+            "v6",
+            "latest",
+            "USD"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Error 401 clima sin API",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.openweathermap.org/data/2.5/weather?q=Cali,CO&units=metric&lang=es",
+          "protocol": "https",
+          "host": [
+            "api",
+            "openweathermap",
+            "org"
+          ],
+          "path": [
+            "data",
+            "2.5",
+            "weather"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "Cali,CO"
+            },
+            {
+              "key": "units",
+              "value": "metric"
+            },
+            {
+              "key": "lang",
+              "value": "es"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
