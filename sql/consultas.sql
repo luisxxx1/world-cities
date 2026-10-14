@@ -1,52 +1,46 @@
-## Pregunta 2: consultas SQL
+-- Pregunta 2 - Consultas en la base World
 
-Las consultas están en `sql/consultas.sql`.
-Las hice en DbVisualizer.
 
-### Ciudades con 100.000 habitantes o menos
+-- 1. Ciudades con 100.000 habitantes o menos
+-- Resultado: 521 ciudades
 
-Me salieron **521 ciudades**.
+SELECT ID, Name, CountryCode, District, Population
+FROM world.city
+WHERE Population <= 100000
+ORDER BY Population DESC;
 
-Ojo con el "menor o igual":
-hay cuatro ciudades con justo 100.000,
-y si solo buscaba las menores, se quedaban por fuera.
 
-![](<docs/evidencias/sqlmenor100000.png>)
+-- 2. Ciudades que empiezan con R
+-- Resultado: 110 ciudades
 
-### Ciudades que empiezan con R
+SELECT COUNT(*) AS total_ciudades_con_r
+FROM world.city
+WHERE Name LIKE 'R%';
 
-Me salieron **110 ciudades**.
 
-![](<docs/evidencias/sqlciudadeconR.png>)
+-- 3. Top 10 de ciudades donde se habla español
 
-### Las 10 ciudades más grandes donde se habla español
+-- Versión A: todos los países donde se habla español
+-- Aparecen ciudades de Estados Unidos, donde el español no es oficial
 
-Aquí me encontré con algo curioso.
-La base también tiene el español en países
-donde no es el idioma oficial.
+SELECT ci.Name AS ciudad, co.Name AS pais, ci.Population AS poblacion,
+       cl.Percentage AS porcentaje_espanol, cl.IsOfficial AS es_oficial
+FROM world.city ci
+JOIN world.country co ON co.Code = ci.CountryCode
+JOIN world.countrylanguage cl ON cl.CountryCode = co.Code
+WHERE cl.Language = 'Spanish'
+ORDER BY ci.Population DESC
+LIMIT 10;
 
-Por ejemplo, en Estados Unidos lo habla el 7.5%,
-así que en la lista se colaban New York, Los Angeles y Chicago.
+-- Versión B: solo países donde el español es oficial
+-- Esta es la que responde mejor la pregunta
 
-Por eso hice dos versiones.
-
-**Con todos los países donde se habla español**
-
-![](<docs/evidencias/sqlversionespañol.png>)
-
-**Solo donde el español es oficial**
-
-Esta es la que mejor responde la pregunta:
-
-1. Ciudad de México
-2. Lima
-3. Santafé de Bogotá
-4. Santiago de Chile
-5. Buenos Aires
-6. Madrid
-7. La Habana
-8. Cali
-9. Guayaquil
-10. Caracas
-
-![](<docs/evidencias/sqlespañolversionb.png>)
+SELECT ci.Name AS ciudad, co.Name AS pais, ci.Population AS poblacion,
+       cl.Percentage AS porcentaje_espanol, cl.IsOfficial AS es_oficial
+FROM world.city ci
+JOIN world.country co ON co.Code = ci.CountryCode
+JOIN world.countrylanguage cl ON cl.CountryCode = co.Code
+WHERE cl.Language = 'Spanish'
+  AND cl.IsOfficial = 'T'
+ORDER BY ci.Population DESC
+LIMIT 10;
