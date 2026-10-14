@@ -407,6 +407,36 @@ Tampoco lo pasaría a desarrollo,
 porque la integración funcionó bien
 y el rechazo vino del banco.
 
+
+## Lo que agregué de más
+
+Aparte de lo que pedía la prueba, le metí algunas cosas que me parecieron útiles.
+
+En la app le puse los idiomas de cada país,
+porque en el enunciado dice que a Sofía también le interesan.
+
+Además del top 10, dejé la lista completa de ciudades
+por si quiere ver todas.
+
+Si escoge un país sin ciudades, como la Antártida,
+le sale un mensaje y no una tabla vacía.
+
+Y si alguien pone en la dirección un país que no existe,
+la app responde 404 en vez de romperse.
+
+Mientras armaba todo me salieron varios problemas,
+como el puerto ocupado o las tildes dañadas,
+y los dejé anotados con cómo los resolví.
+
+En SQL hice dos versiones del top 10 en español,
+porque la base cuenta países donde ni siquiera es el idioma oficial.
+
+En Postman me di cuenta de que Frankfurter no trae el peso colombiano
+aunque responda bien, así que lo cambié por otra API que sí lo trae.
+
+Y en el pago rechazado, aparte de la causa,
+anoté otras cosas raras que vi en el log y en los datos de la clienta.
+
 ## Autor
 
 
