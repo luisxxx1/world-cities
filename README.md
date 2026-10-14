@@ -234,9 +234,39 @@ Esta es la que mejor responde la pregunta:
 
 ![](<docs/evidencias/sqlespañolversionb.png>)
 
+## Pregunta 3: base de datos
 
+### ¿Qué campo es la clave primaria de la tabla País?
 
+**b. Código**
 
+Cada país tiene un código único de tres letras,
+como COL para Colombia o ESP para España.
+
+Lo comprobé en la base:
+la clave primaria de `country` es `Code`,
+no se puede repetir
+y hay 239 códigos, uno por cada país.
+
+El nombre, el continente o la capital no sirven,
+porque se pueden repetir.
+
+![](<docs/evidencias/p3llavepais.png>)
+
+### ¿Cuál es la relación entre Ciudad y País?
+
+**B. Un país puede tener varias ciudades**
+
+Cada ciudad guarda el código de su país.
+Muchas ciudades pueden tener el mismo país,
+pero cada ciudad pertenece a uno solo.
+
+Es una relación de uno a muchos.
+
+Lo comprobé contando las ciudades por país.
+Por ejemplo, China tiene 363 e India 341.
+
+![](<docs/evidencias/p3relacion.png>)
 
 
 ## Autor
